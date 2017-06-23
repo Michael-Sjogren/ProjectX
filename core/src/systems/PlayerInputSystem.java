@@ -115,13 +115,20 @@ public class PlayerInputSystem extends IteratingSystem implements InputProcessor
     }
 
     private void setPlayerAim(BodyComponent bodyComponent){
-        final float mouseX = Gdx.input.getX();
-        final float mouseY = Gdx.input.getY();
+        // TODO avoid creating new objects each step
+        final Vector3 mouse = cam.unproject(new Vector3(Gdx.input.getX() ,Gdx.input.getY() , 0f));
         final float playerX = bodyComponent.body.getPosition().x * Constants.PPM;
         final float playerY = bodyComponent.body.getPosition().y * Constants.PPM;
-        final float angle = MathUtils.atan2(playerX - mouseX , playerY - mouseY) * MathUtils.radiansToDegrees;
-        System.out.println(angle);
-        playerSprite.setRotation(angle);
+        renderer.begin();
+        renderer.setProjectionMatrix(cam.combined);
+        renderer.rect(playerX - 2 , playerY - 2 ,4, 4 );
+        renderer.line(playerX , playerY , mouse.x , mouse.y);
+        renderer.end();
+        final float deltaX = (playerX - mouse.x);
+        final float deltaY = (playerY - mouse.y);
+        final float angle = MathUtils.atan2(deltaY , deltaX) * MathUtils.radiansToDegrees;
+        // TODO make default 90 degrees in start angle
+        playerSprite.setRotation(angle + 90);
       //  bodyComponent.body.getTransform().setRotation(angle);
     }
 }
