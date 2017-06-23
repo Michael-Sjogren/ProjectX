@@ -9,6 +9,7 @@ import world.WorldGenerator;
 public class Game implements ApplicationListener {
     /** pixels per meter **/
     public static final int PPM = 100;
+    public static boolean DEBUG = true;
 
     private GameStateManager gsm;
     private Assets assets;

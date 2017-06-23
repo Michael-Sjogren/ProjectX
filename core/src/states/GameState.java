@@ -3,11 +3,9 @@ package states;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import components.BodyComponent;
+import game.Game;
 import managers.GameStateManager;
 import systems.CameraSystem;
 import systems.Families;
@@ -55,7 +53,8 @@ public class GameState extends CoreState {
     @Override
     public void render() {
         gameWorld.render(camera);
-        box2dRenderer.render(box2dWorld , camera.combined.cpy().scl(Constants.PPM) );
+        if(Game.DEBUG)
+            box2dRenderer.render(box2dWorld , camera.combined.cpy().scl(Constants.PPM) );
     }
 
     @Override

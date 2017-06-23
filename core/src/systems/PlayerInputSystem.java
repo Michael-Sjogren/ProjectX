@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import components.*;
+import game.Game;
 import utils.Constants;
 
 import java.awt.*;
@@ -54,7 +55,8 @@ public class PlayerInputSystem extends IteratingSystem implements InputProcessor
 
     @Override
     public boolean keyDown(int keycode) {
-
+        if(keycode == Input.Keys.F1)
+            Game.DEBUG = !Game.DEBUG;
         return Gdx.input.isKeyPressed(keycode);
     }
 
@@ -128,7 +130,8 @@ public class PlayerInputSystem extends IteratingSystem implements InputProcessor
         final float deltaY = (playerY - mouse.y);
         final float angle = MathUtils.atan2(deltaY , deltaX) * MathUtils.radiansToDegrees;
         // TODO make default 90 degrees in start angle
-        playerSprite.setRotation(angle + 90);
+        bodyComponent.body.setTransform(bodyComponent.body.getPosition() , angle * MathUtils.degreesToRadians);
+        playerSprite.setRotation(bodyComponent.body.getAngle() * MathUtils.radiansToDegrees);
       //  bodyComponent.body.getTransform().setRotation(angle);
     }
 }
